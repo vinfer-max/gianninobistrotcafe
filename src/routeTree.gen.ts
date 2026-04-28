@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ViniRouteImport } from './routes/vini'
 import { Route as MenuRouteImport } from './routes/menu'
+import { Route as DrinkRouteImport } from './routes/drink'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ViniRoute = ViniRouteImport.update({
@@ -23,6 +24,11 @@ const MenuRoute = MenuRouteImport.update({
   path: '/menu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DrinkRoute = DrinkRouteImport.update({
+  id: '/drink',
+  path: '/drink',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/drink': typeof DrinkRoute
   '/menu': typeof MenuRoute
   '/vini': typeof ViniRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/drink': typeof DrinkRoute
   '/menu': typeof MenuRoute
   '/vini': typeof ViniRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/drink': typeof DrinkRoute
   '/menu': typeof MenuRoute
   '/vini': typeof ViniRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/menu' | '/vini'
+  fullPaths: '/' | '/drink' | '/menu' | '/vini'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/menu' | '/vini'
-  id: '__root__' | '/' | '/menu' | '/vini'
+  to: '/' | '/drink' | '/menu' | '/vini'
+  id: '__root__' | '/' | '/drink' | '/menu' | '/vini'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DrinkRoute: typeof DrinkRoute
   MenuRoute: typeof MenuRoute
   ViniRoute: typeof ViniRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MenuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/drink': {
+      id: '/drink'
+      path: '/drink'
+      fullPath: '/drink'
+      preLoaderRoute: typeof DrinkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DrinkRoute: DrinkRoute,
   MenuRoute: MenuRoute,
   ViniRoute: ViniRoute,
 }
