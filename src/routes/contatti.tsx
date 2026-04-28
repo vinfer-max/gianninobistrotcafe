@@ -116,13 +116,11 @@ function ContattiPage() {
           </p>
           <div className="relative aspect-[4/5] md:aspect-[3/4] w-full overflow-hidden border border-border bg-muted z-0">
             <ClientOnly fallback={<div className="absolute inset-0 grid place-items-center text-xs text-muted-foreground">Caricamento mappa…</div>}>
-              {() => (
-                <InteractiveMap
-                  lat={LAT}
-                  lng={LNG}
-                  label="Giannino Bistrot Cafè · Via Nazionale 34"
-                />
-              )}
+              <InteractiveMap
+                lat={LAT}
+                lng={LNG}
+                label="Giannino Bistrot Cafè · Via Nazionale 34"
+              />
             </ClientOnly>
           </div>
           <a
