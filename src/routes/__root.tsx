@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-
 import appCss from "../styles.css?url";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 function NotFoundComponent() {
   return (
@@ -29,14 +30,13 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Tenuta Corsini — Gestionale" },
+      { name: "description", content: "Sistema gestionale del ristorante Tenuta Corsini: storia, menù, carta dei vini, drink list e contatti." },
+      { name: "author", content: "Tenuta Corsini" },
+      { property: "og:title", content: "Tenuta Corsini — Gestionale" },
+      { property: "og:description", content: "Storia, menù, carta dei vini, drink list e contatti." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -65,5 +65,24 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-background">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col min-w-0">
+          <header className="h-14 flex items-center gap-3 border-b border-border px-4 md:px-8 bg-background/80 backdrop-blur-sm sticky top-0 z-20">
+            <SidebarTrigger className="text-foreground hover:text-accent" />
+            <div className="h-4 w-px bg-border" />
+            <span className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
+              Manuale Operativo
+            </span>
+          </header>
+          <main className="flex-1">
+            <Outlet />
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
+  );
+}
 }
