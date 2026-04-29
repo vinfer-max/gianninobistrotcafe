@@ -36,19 +36,6 @@ function Index() {
               Siamo orgogliosi di presentarvi il nostro Bistrot: il luogo dove la nostra storia dal 1974 incontra la contemporaneità.
             </p>
           </div>
-
-          <div className="mt-14 grid grid-cols-3 gap-px bg-border border border-border">
-            {[
-              { k: "Fondazione", v: "1974" },
-              { k: "Coperti", v: "45" },
-              { k: "Etichette", v: "1.480" },
-            ].map((s) => (
-              <div key={s.k} className="bg-card p-5">
-                <div className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-2">{s.k}</div>
-                <div className="font-serif text-2xl text-foreground">{s.v}</div>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div className="lg:col-span-5">
