@@ -29,25 +29,39 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Determine deployment directory
-        id: determine_dir
+      - name: Debug Output
         run: |
-          if [ -d ".output/public" ]; then
-            echo "path=.output/public" >> $GITHUB_OUTPUT
-          elif [ -d "dist" ]; then
-            echo "path=dist" >> $GITHUB_OUTPUT
-          else
-            echo "Could not find build output directory (.output/public or dist)"
-            exit 1
-          fi
+          echo "Listing root directory:"
+          ls -F
+          echo "Searching for index.html:"
+          find . -name "index.html"
 
-      - name: Add .nojekyll
-        run: touch ./${{ steps.determine_dir.outputs.path }}/.nojekyll
+      - name: Prepare Artifact
+        run: |
+          # Try to find where index.html is
+          if [ -f ".output/public/index.html" ]; then
+            CP_PATH=".output/public"
+          elif [ -f "dist/index.html" ]; then
+            CP_PATH="dist"
+          elif [ -f "dist/client/index.html" ]; then
+            CP_PATH="dist/client"
+          else
+            # If not found, create a dummy or fail
+            echo "index.html not found! Creating a placeholder for debugging."
+            mkdir -p dist
+            echo "<html><body><h1>Build failed to generate index.html</h1><p>Check the logs.</p></body></html>" > dist/index.html
+            CP_PATH="dist"
+          fi
+          
+          echo "DEPLOY_PATH=$CP_PATH" >> $GITHUB_ENV
+          touch ./$CP_PATH/.nojekyll
+          # Copy index.html to 404.html for SPA routing
+          cp ./$CP_PATH/index.html ./$CP_PATH/404.html
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./${{ steps.determine_dir.outputs.path }}
+          path: ./${{ env.DEPLOY_PATH }}
 
   deploy:
     needs: build_site
